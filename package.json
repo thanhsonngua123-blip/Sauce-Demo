@@ -1,0 +1,28 @@
+{
+  "name": "sauce-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:smoke": "playwright test tests/smoke",
+    "test:api": "playwright test tests/api",
+    "test:ui-only": "playwright test tests/ui",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://sauce-demo.myshopify.com/",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3"
+  }
+}
