@@ -9,7 +9,6 @@ export class CartPage {
   readonly continueShoppingLink: Locator;
   readonly removeItemLink: Locator;
   readonly checkoutButton: Locator;
-  readonly updateButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,7 +18,6 @@ export class CartPage {
     this.continueShoppingLink = page.getByRole('link', { name: 'Continue Shopping' });
     this.removeItemLink = page.getByRole('link', { name: 'x' });
     this.checkoutButton = page.getByRole('button', { name: 'Check Out' });
-    this.updateButton = page.getByRole('button', { name: 'Update' });
   }
 
   async goTo() {
@@ -62,11 +60,6 @@ export class CartPage {
 
   async expectTotal(total: string) {
     await expect(this.page.getByRole('heading', { name: `Total ${total}` })).toBeVisible();
-  }
-
-  async updateQuantity(quantity: string) {
-    await this.page.getByRole('textbox').first().fill(quantity);
-    await this.updateButton.click();
   }
 
   async removeFirstItem() {

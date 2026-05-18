@@ -81,7 +81,7 @@ npm run report
 ## Cấu Trúc Chính
 
 - `tests/smoke/`: smoke tests cho các trang chính
-- `tests/ui/`: UI tests theo từng chức năng
+- `tests/ui/`: UI tests theo từng chức năng; không dùng cho cart theme thật
 - `tests/api/`: API tests
 - `tests/real/`: real contract tests, không chạy trong `npm test` mặc định
 - `tests/support/`: mock/stub helpers dùng chung cho tests
@@ -92,7 +92,8 @@ npm run report
 
 ## Lưu Ý
 
-- Một số test dùng mock/stub để tránh Cloudflare hoặc Shopify checkout làm test flaky.
+- Cart theme tests nằm trong `tests/real/` và dùng storefront thật, không mock HTML cart tự dựng.
+- Một số test ngoài cart dùng mock/stub để tránh Cloudflare hoặc Shopify checkout làm test flaky.
 - `npm test` loại trừ test có tag `@real`; dùng `npm run test:real` khi muốn kiểm tra real flow nhạy cảm.
 - Các test không thực hiện thanh toán thật và không tạo tài khoản thành công thật.
 - Project hiện chạy local là chính, chưa cần GitHub Actions/CI.

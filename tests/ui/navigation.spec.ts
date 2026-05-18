@@ -33,11 +33,4 @@ test.describe('Navigation', () => {
     await searchPage.expectLoaded();
   });
 
-  test('NAV-005: người dùng vào được Cart từ Home', async ({ homePage, cartPage }) => {
-    await homePage.goTo();
-
-    await homePage.goToCart();
-
-    await cartPage.expectLoaded();
-  });
 });

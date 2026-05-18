@@ -28,13 +28,6 @@ test.describe('Smoke tests with fixtures', () => {
     await productPage.expectProductVisible('Noir jacket', '£60.00');
   });
 
-  test('CART-001: cart page mở được ở trạng thái rỗng', async ({ cartPage }) => {
-    await cartPage.goTo();
-
-    await cartPage.expectLoaded();
-    await cartPage.expectCartEmpty();
-  });
-
   test('LOGIN-001: login page mở được', async ({ loginPage }) => {
     await loginPage.goTo();
 
