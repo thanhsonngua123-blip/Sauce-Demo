@@ -1,14 +1,5 @@
-import { test } from '@/fixtures/page.fixture';
-
-async function mockSearchResults(page, query: string, body: string) {
-  await page.route(`**/search?q=${query}`, async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'text/html',
-      body,
-    });
-  });
-}
+import { expect, test } from '@/fixtures/page.fixture';
+import { mockSearchResults } from '@/tests/support/mocks';
 
 test.describe('Search page', () => {
   test('SEARCH-001: search page mở được', async ({ searchPage }) => {
@@ -17,7 +8,7 @@ test.describe('Search page', () => {
     await searchPage.expectLoaded();
   });
 
-  test('SEARCH-003: homepage link hiển thị trong empty search state', async ({ searchPage }) => {
+  test('SEARCH-002: homepage link hiển thị trong empty search state', async ({ searchPage }) => {
     await searchPage.goTo();
 
     await searchPage.expectLoaded();
@@ -25,7 +16,7 @@ test.describe('Search page', () => {
     await searchPage.expectHomepageLinkVisible();
   });
 
-  test('SEARCH-004: search jacket hiển thị sản phẩm phù hợp', async ({ searchPage, page }) => {
+  test('SEARCH-003: search jacket hiển thị sản phẩm phù hợp', async ({ searchPage, page }) => {
     await mockSearchResults(
       page,
       'jacket',
@@ -48,7 +39,10 @@ test.describe('Search page', () => {
     await searchPage.expectResultVisible(/Noir jacket/i);
   });
 
-  test('SEARCH-005: search keyword không tồn tại hiển thị no results', async ({ searchPage, page }) => {
+  test('SEARCH-004: search keyword không tồn tại hiển thị no results', async ({
+    searchPage,
+    page,
+  }) => {
     await mockSearchResults(
       page,
       'zzzznotfound',
@@ -65,5 +59,14 @@ test.describe('Search page', () => {
 
     await searchPage.expectLoaded();
     await searchPage.expectNoResultsFor('zzzznotfound');
+  });
+
+  test('SEARCH-005: header search submit cập nhật URL query', async ({ homePage, page }) => {
+    await homePage.goTo();
+    await homePage.expectLoaded();
+
+    await homePage.searchFromHeader('jacket');
+
+    await expect(page).toHaveURL(/\/search\?type=product&q=jacket/);
   });
 });

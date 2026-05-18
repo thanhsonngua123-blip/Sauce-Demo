@@ -5,6 +5,7 @@ import { CatalogPage } from '@/pages/CatalogPage';
 import { ProductPage } from '@/pages/ProductPage';
 import { CartPage } from '@/pages/CartPage';
 import { LoginPage } from '@/pages/LoginPage';
+import { RegisterPage } from '@/pages/RegisterPage';
 import { SearchPage } from '@/pages/SearchPage';
 import { AboutPage } from '@/pages/AboutPage';
 
@@ -14,6 +15,7 @@ type PageFixtures = {
   productPage: ProductPage;
   cartPage: CartPage;
   loginPage: LoginPage;
+  registerPage: RegisterPage;
   searchPage: SearchPage;
   aboutPage: AboutPage;
 };
@@ -37,6 +39,10 @@ export const test = base.extend<PageFixtures>({
 
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
+  },
+
+  registerPage: async ({ page }, use) => {
+    await use(new RegisterPage(page));
   },
 
   searchPage: async ({ page }, use) => {

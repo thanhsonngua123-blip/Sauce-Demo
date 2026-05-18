@@ -1,4 +1,5 @@
-import { test } from '@/fixtures/page.fixture';
+import { expect, test } from '@/fixtures/page.fixture';
+import { routes } from '@/test-data/routes';
 
 test.describe('Smoke tests with fixtures', () => {
   test('HOME-001: trang chủ mở được', async ({ homePage }) => {
@@ -52,5 +53,12 @@ test.describe('Smoke tests with fixtures', () => {
     await aboutPage.goTo();
 
     await aboutPage.expectLoaded();
+  });
+
+  test('BLOG-001: blog page mở được', async ({ page }) => {
+    await page.goto(routes.blog);
+
+    await expect(page).toHaveURL(/blogs\/news/);
+    await expect(page.getByRole('heading', { name: 'First Post' })).toBeVisible();
   });
 });

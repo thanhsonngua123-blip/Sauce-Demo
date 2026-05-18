@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --grep-invert @real",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:smoke": "playwright test tests/smoke",
     "test:api": "playwright test tests/api",
+    "test:real": "playwright test --grep @real",
     "test:ui-only": "playwright test tests/ui",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test",
     "report": "playwright show-report",
     "codegen": "playwright codegen https://sauce-demo.myshopify.com/",
     "format": "prettier --write ."

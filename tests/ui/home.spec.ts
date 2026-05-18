@@ -14,7 +14,7 @@ test.describe('Home page', () => {
     await homePage.expectMainNavigationVisible();
   });
 
-  test('HOME-004: featured products hiển thị trên trang chủ', async ({ homePage }) => {
+  test('HOME-003: featured products hiển thị trên trang chủ', async ({ homePage }) => {
     await homePage.goTo();
 
     for (const productName of featuredProducts) {
@@ -22,7 +22,7 @@ test.describe('Home page', () => {
     }
   });
 
-  test('HOME-005: cart link hiển thị số lượng giỏ hàng ban đầu', async ({ homePage, page }) => {
+  test('HOME-004: cart link hiển thị số lượng giỏ hàng ban đầu', async ({ homePage, page }) => {
     await homePage.goTo();
 
     await expect(page.getByRole('link', { name: /My Cart\s*\(0\)/i })).toBeVisible();

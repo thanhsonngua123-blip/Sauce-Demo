@@ -3,8 +3,10 @@ export const routes = {
   catalog: '/collections/all',
   cart: '/cart',
   login: '/account/login',
+  register: '/account/register',
   search: '/search',
   about: '/pages/about-us',
+  blog: '/blogs/news',
   products: {
     greyJacket: '/products/grey-jacket',
     noirJacket: '/products/noir-jacket',

@@ -7,6 +7,8 @@ export class HomePage {
   readonly catalogLink: Locator;
   readonly loginLink: Locator;
   readonly searchLink: Locator;
+  readonly searchBox: Locator;
+  readonly searchButton: Locator;
   readonly aboutUsLink: Locator;
   readonly cartLink: Locator;
 
@@ -16,6 +18,8 @@ export class HomePage {
     this.catalogLink = page.getByRole('link', { name: 'Catalog' });
     this.loginLink = page.getByRole('banner').getByRole('link', { name: 'Log In' });
     this.searchLink = page.getByRole('banner').getByRole('link', { name: 'Search' });
+    this.searchBox = page.getByRole('banner').getByRole('textbox', { name: 'Search' });
+    this.searchButton = page.getByRole('banner').getByRole('button', { name: 'Submit' });
     this.aboutUsLink = page.getByRole('link', { name: 'About us' }).first();
     this.cartLink = page.getByRole('banner').getByRole('link', { name: 'Check Out' });
   }
@@ -59,5 +63,10 @@ export class HomePage {
 
   async goToCart() {
     await this.cartLink.click();
+  }
+
+  async searchFromHeader(query: string) {
+    await this.searchBox.fill(query);
+    await this.searchButton.click();
   }
 }
