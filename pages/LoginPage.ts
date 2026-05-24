@@ -77,6 +77,38 @@ export class LoginPage {
 
   async submitLoginForm() {
     await this.signInButton.click();
+    await this.page.waitForLoadState('domcontentloaded', { timeout: 30_000 }).catch(() => {});
+  }
+
+  async accountIsLoaded() {
+    if (/\/account(?!\/login)/.test(this.page.url())) {
+      return true;
+    }
+
+    return this.page
+      .getByRole('heading', { name: 'Account Details and Order History' })
+      .isVisible({ timeout: 1_000 })
+      .catch(() => false);
+  }
+
+  async expectAccountLoaded() {
+    const accountHeading = this.page.getByRole('heading', {
+      name: 'Account Details and Order History',
+    });
+    try {
+      await expect(accountHeading).toBeVisible({ timeout: 30_000 });
+    } catch (error) {
+      if (await this.hcaptchaText.isVisible().catch(() => false)) {
+        throw new Error(
+          `hCaptcha is still visible after submitting login. Current URL: ${this.page.url()}`,
+          { cause: error }
+        );
+      }
+
+      throw new Error(`Account page did not load after login. Current URL: ${this.page.url()}`, {
+        cause: error,
+      });
+    }
   }
 
   async expectInvalidLoginProtected() {

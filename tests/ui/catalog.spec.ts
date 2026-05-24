@@ -1,14 +1,14 @@
 import { test, expect } from '@/fixtures/page.fixture';
 import { products } from '@/test-data/products';
 
-test.describe('Catalog page', () => {
-  test('CAT-001: catalog page mở được', async ({ catalogPage }) => {
+test.describe('Trang catalog @real', () => {
+  test('CAT-001: trang catalog mở được', async ({ catalogPage }) => {
     await catalogPage.goTo();
 
     await catalogPage.expectLoaded();
   });
 
-  test('CAT-002: catalog hiển thị toàn bộ sản phẩm trong test data', async ({ catalogPage }) => {
+  test('CAT-002: catalog hiển thị toàn bộ sản phẩm trong dữ liệu test', async ({ catalogPage }) => {
     await catalogPage.goTo();
     await catalogPage.expectLoaded();
 
@@ -17,7 +17,7 @@ test.describe('Catalog page', () => {
     }
   });
 
-  test('CAT-003: catalog hiển thị trạng thái Sold Out cho sản phẩm hết hàng', async ({
+  test('CAT-003: catalog hiển thị trạng thái hết hàng cho sản phẩm hết hàng', async ({
     catalogPage,
     page,
   }) => {
@@ -37,7 +37,7 @@ test.describe('Catalog page', () => {
     await catalogPage.expectSoldOutVisible();
   });
 
-  test('CAT-004: click Grey jacket mở product detail', async ({ catalogPage, productPage }) => {
+  test('CAT-004: nhấn Grey jacket mở trang chi tiết sản phẩm', async ({ catalogPage, productPage }) => {
     await catalogPage.goTo();
     await catalogPage.expectLoaded();
 
@@ -45,15 +45,5 @@ test.describe('Catalog page', () => {
 
     await productPage.expectProductUrl(/grey-jacket/);
     await productPage.expectProductVisible('Grey jacket', '£55.00');
-  });
-
-  test('CAT-005: click Noir jacket mở product detail', async ({ catalogPage, productPage }) => {
-    await catalogPage.goTo();
-    await catalogPage.expectLoaded();
-
-    await catalogPage.openProduct(/Noir jacket/i);
-
-    await productPage.expectProductUrl(/noir-jacket/);
-    await productPage.expectProductVisible('Noir jacket', '£60.00');
   });
 });

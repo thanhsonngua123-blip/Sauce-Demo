@@ -6,22 +6,30 @@ export class HomePage {
   readonly slogan: Locator;
   readonly catalogLink: Locator;
   readonly loginLink: Locator;
+  readonly registerLink: Locator;
+  readonly blogLink: Locator;
   readonly searchLink: Locator;
   readonly searchBox: Locator;
   readonly searchButton: Locator;
   readonly aboutUsLink: Locator;
   readonly cartLink: Locator;
+  readonly accountLink: Locator;
+  readonly logoutLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.slogan = page.getByText('Just a demo site showing off what Sauce can do.');
     this.catalogLink = page.getByRole('link', { name: 'Catalog' });
     this.loginLink = page.getByRole('banner').getByRole('link', { name: 'Log In' });
+    this.registerLink = page.getByRole('link', { name: 'Sign Up' });
+    this.blogLink = page.getByRole('link', { name: 'Blog' });
     this.searchLink = page.getByRole('banner').getByRole('link', { name: 'Search' });
     this.searchBox = page.getByRole('banner').getByRole('textbox', { name: 'Search' });
     this.searchButton = page.getByRole('banner').getByRole('button', { name: 'Submit' });
     this.aboutUsLink = page.getByRole('link', { name: 'About us' }).first();
     this.cartLink = page.getByRole('banner').getByRole('link', { name: 'Check Out' });
+    this.accountLink = page.getByRole('banner').getByRole('link', { name: 'MyAccount' });
+    this.logoutLink = page.getByRole('banner').getByRole('link', { name: 'Log Out' });
   }
 
   async goTo() {
@@ -36,6 +44,7 @@ export class HomePage {
   async expectMainNavigationVisible() {
     await expect(this.catalogLink).toBeVisible();
     await expect(this.loginLink).toBeVisible();
+    await expect(this.blogLink).toBeVisible();
     await expect(this.searchLink).toBeVisible();
     await expect(this.aboutUsLink).toBeVisible();
     await expect(this.cartLink).toBeVisible();
@@ -51,6 +60,43 @@ export class HomePage {
 
   async goToLogin() {
     await this.loginLink.click();
+  }
+
+  async loginLinkIsVisible() {
+    return this.loginLink.isVisible().catch(() => false);
+  }
+
+  async accountLinkIsVisible() {
+    return this.accountLink.isVisible().catch(() => false);
+  }
+
+  async logoutLinkIsVisible() {
+    return this.logoutLink.isVisible().catch(() => false);
+  }
+
+  async logout() {
+    if (await this.logoutLinkIsVisible()) {
+      await this.logoutLink.click();
+    } else {
+      await this.page.goto('/account/logout', { waitUntil: 'domcontentloaded' });
+    }
+
+    await this.page.waitForLoadState('domcontentloaded', { timeout: 15_000 }).catch(() => {});
+    await this.page.reload({ waitUntil: 'domcontentloaded', timeout: 15_000 }).catch(async () => {
+      await this.page.goto('/', { waitUntil: 'domcontentloaded' });
+    });
+
+    if (!(await this.loginLinkIsVisible())) {
+      await this.page.goto('/', { waitUntil: 'domcontentloaded' });
+    }
+  }
+
+  async goToRegister() {
+    await this.registerLink.click();
+  }
+
+  async goToBlog() {
+    await this.blogLink.click();
   }
 
   async goToSearch() {

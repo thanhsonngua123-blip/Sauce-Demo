@@ -1,14 +1,13 @@
 import { expect, test } from '@/fixtures/page.fixture';
-import { mockSearchResults } from '@/tests/support/mocks';
 
-test.describe('Search page', () => {
-  test('SEARCH-001: search page mở được', async ({ searchPage }) => {
+test.describe('Trang tìm kiếm @real', () => {
+  test('SEARCH-001: trang tìm kiếm mở được', async ({ searchPage }) => {
     await searchPage.goTo();
 
     await searchPage.expectLoaded();
   });
 
-  test('SEARCH-002: homepage link hiển thị trong empty search state', async ({ searchPage }) => {
+  test('SEARCH-002: link về trang chủ hiển thị khi chưa có kết quả tìm kiếm', async ({ searchPage }) => {
     await searchPage.goTo();
 
     await searchPage.expectLoaded();
@@ -16,18 +15,7 @@ test.describe('Search page', () => {
     await searchPage.expectHomepageLinkVisible();
   });
 
-  test('SEARCH-003: search jacket hiển thị sản phẩm phù hợp', async ({ searchPage, page }) => {
-    await mockSearchResults(
-      page,
-      'jacket',
-      `
-        <h1>Search Results</h1>
-        <p>Showing results for jacket</p>
-        <a href="/products/grey-jacket"><h3>Grey jacket</h3><h4>£55.00</h4></a>
-        <a href="/products/noir-jacket"><h3>Noir jacket</h3><h4>£60.00</h4></a>
-      `
-    );
-
+  test('SEARCH-003: tìm kiếm jacket trả về sản phẩm phù hợp', async ({ searchPage }) => {
     await searchPage.goTo();
     await searchPage.expectLoaded();
 
@@ -39,19 +27,7 @@ test.describe('Search page', () => {
     await searchPage.expectResultVisible(/Noir jacket/i);
   });
 
-  test('SEARCH-004: search keyword không tồn tại hiển thị no results', async ({
-    searchPage,
-    page,
-  }) => {
-    await mockSearchResults(
-      page,
-      'zzzznotfound',
-      `
-        <h1>Search Results</h1>
-        <p>No results found for zzzznotfound</p>
-      `
-    );
-
+  test('SEARCH-004: từ khóa không tồn tại hiển thị trạng thái không có kết quả', async ({ searchPage }) => {
     await searchPage.goTo();
     await searchPage.expectLoaded();
 
@@ -61,12 +37,36 @@ test.describe('Search page', () => {
     await searchPage.expectNoResultsFor('zzzznotfound');
   });
 
-  test('SEARCH-005: header search submit cập nhật URL query', async ({ homePage, page }) => {
+  test('SEARCH-005: tìm kiếm từ header cập nhật query trên URL', async ({ homePage, page }) => {
     await homePage.goTo();
     await homePage.expectLoaded();
 
     await homePage.searchFromHeader('jacket');
 
     await expect(page).toHaveURL(/\/search\?type=product&q=jacket/);
+  });
+
+  test('SEARCH-006: tìm kiếm không phân biệt chữ hoa chữ thường', async ({ searchPage }) => {
+    await searchPage.goTo();
+    await searchPage.expectLoaded();
+
+    await searchPage.search('JACKET');
+
+    await searchPage.expectLoaded();
+    await searchPage.expectShowingResultsFor('JACKET');
+    await searchPage.expectResultVisible(/Grey jacket/i);
+    await searchPage.expectResultVisible(/Noir jacket/i);
+  });
+
+  test('SEARCH-007: tìm kiếm sandals trả về sản phẩm sandals', async ({ searchPage }) => {
+    await searchPage.goTo();
+    await searchPage.expectLoaded();
+
+    await searchPage.search('sandals');
+
+    await searchPage.expectLoaded();
+    await searchPage.expectShowingResultsFor('sandals');
+    await searchPage.expectResultVisible(/Bronze sandals/i);
+    await searchPage.expectResultVisible(/White sandals/i);
   });
 });

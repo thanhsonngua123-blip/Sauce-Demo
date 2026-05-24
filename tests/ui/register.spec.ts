@@ -1,14 +1,14 @@
 import { test } from '@/fixtures/page.fixture';
 
-test.describe('Register page', () => {
-  test('REGISTER-001: register page mở được và form hiển thị', async ({ registerPage }) => {
+test.describe('Trang register @real', () => {
+  test('REGISTER-001: các trường form register hiển thị', async ({ registerPage }) => {
     await registerPage.goTo();
 
     await registerPage.expectLoaded();
     await registerPage.expectRegisterFormVisible();
   });
 
-  test('REGISTER-002: người dùng nhập được register form', async ({ registerPage }) => {
+  test('REGISTER-002: người dùng nhập được form register', async ({ registerPage }) => {
     await registerPage.goTo();
     await registerPage.expectLoaded();
 
@@ -17,7 +17,17 @@ test.describe('Register page', () => {
     await registerPage.expectRegisterFormValues('Test', 'User', 'test@example.com', 'Password123!');
   });
 
-  test('REGISTER-003: submit register form hiển thị bảo vệ hCaptcha', async ({ registerPage }) => {
+  test('REGISTER-003: người dùng xóa được dữ liệu đã nhập', async ({ registerPage }) => {
+    await registerPage.goTo();
+    await registerPage.expectLoaded();
+
+    await registerPage.fillRegisterForm('Test', 'User', 'test@example.com', 'Password123!');
+    await registerPage.clearRegisterForm();
+
+    await registerPage.expectRegisterFormValues('', '', '', '');
+  });
+
+  test('REGISTER-004: gửi form register hiển thị bảo vệ hCaptcha', async ({ registerPage }) => {
     await registerPage.goTo();
     await registerPage.expectLoaded();
 

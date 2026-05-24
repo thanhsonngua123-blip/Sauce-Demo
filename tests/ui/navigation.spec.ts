@@ -1,7 +1,7 @@
 import { test } from '@/fixtures/page.fixture';
 
-test.describe('Navigation', () => {
-  test('NAV-001: người dùng vào được Catalog từ Home', async ({ homePage, catalogPage }) => {
+test.describe('Điều hướng @real', () => {
+  test('NAV-001: người dùng vào được catalog từ trang chủ', async ({ homePage, catalogPage }) => {
     await homePage.goTo();
 
     await homePage.goToCatalog();
@@ -9,7 +9,7 @@ test.describe('Navigation', () => {
     await catalogPage.expectLoaded();
   });
 
-  test('NAV-002: người dùng vào được Login từ Home', async ({ homePage, loginPage }) => {
+  test('NAV-002: người dùng vào được login từ trang chủ', async ({ homePage, loginPage }) => {
     await homePage.goTo();
 
     await homePage.goToLogin();
@@ -17,7 +17,7 @@ test.describe('Navigation', () => {
     await loginPage.expectLoaded();
   });
 
-  test('NAV-003: người dùng vào được About Us từ Home', async ({ homePage, aboutPage }) => {
+  test('NAV-003: người dùng vào được About Us từ trang chủ', async ({ homePage, aboutPage }) => {
     await homePage.goTo();
 
     await homePage.goToAboutUs();
@@ -25,7 +25,7 @@ test.describe('Navigation', () => {
     await aboutPage.expectLoaded();
   });
 
-  test('NAV-004: người dùng vào được Search từ Home', async ({ homePage, searchPage }) => {
+  test('NAV-004: người dùng vào được tìm kiếm từ trang chủ', async ({ homePage, searchPage }) => {
     await homePage.goTo();
 
     await homePage.goToSearch();
@@ -33,4 +33,19 @@ test.describe('Navigation', () => {
     await searchPage.expectLoaded();
   });
 
+  test('NAV-005: người dùng vào được register từ trang chủ', async ({ homePage, registerPage }) => {
+    await homePage.goTo();
+
+    await homePage.goToRegister();
+
+    await registerPage.expectLoaded();
+  });
+
+  test('NAV-006: người dùng vào được blog từ trang chủ', async ({ homePage, blogPage }) => {
+    await homePage.goTo();
+
+    await homePage.goToBlog();
+
+    await blogPage.expectLoaded();
+  });
 });

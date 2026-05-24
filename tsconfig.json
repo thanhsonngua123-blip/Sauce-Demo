@@ -10,9 +10,19 @@
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "resolveJsonModule": true
   },
-  "include": ["tests/**/*", "test-data/**/*", "pages/**/*", "utils/**/*", "fixtures/**/*"]
+  "include": [
+    "global-setup.ts",
+    "playwright.config.ts",
+    "config/**/*",
+    "tests/**/*",
+    "test-data/**/*",
+    "pages/**/*",
+    "utils/**/*",
+    "fixtures/**/*"
+  ]
 }

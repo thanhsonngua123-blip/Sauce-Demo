@@ -1,7 +1,7 @@
 import { test } from '@/fixtures/page.fixture';
 
-test.describe('Product browsing flow', () => {
-  test('người dùng từ Home vào Catalog rồi mở Grey jacket', async ({
+test.describe('Luồng duyệt sản phẩm @real @e2e', () => {
+  test('người dùng từ trang chủ vào catalog rồi mở Grey jacket', async ({
     homePage,
     catalogPage,
     productPage,
@@ -17,5 +17,4 @@ test.describe('Product browsing flow', () => {
     await productPage.expectProductUrl(/grey-jacket/);
     await productPage.expectProductVisible('Grey jacket', '£55.00');
   });
-
 });

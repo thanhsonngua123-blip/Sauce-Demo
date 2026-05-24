@@ -1,14 +1,14 @@
 import { test } from '@/fixtures/page.fixture';
 
-test.describe('Login page', () => {
-  test('LOGIN-002: login form fields hiển thị', async ({ loginPage }) => {
+test.describe('Trang login @real', () => {
+  test('LOGIN-002: các trường form login hiển thị', async ({ loginPage }) => {
     await loginPage.goTo();
 
     await loginPage.expectLoaded();
     await loginPage.expectLoginFormVisible();
   });
 
-  test('LOGIN-003: người dùng nhập được email và password', async ({ loginPage }) => {
+  test('LOGIN-003: người dùng nhập được email và mật khẩu', async ({ loginPage }) => {
     await loginPage.goTo();
     await loginPage.expectLoaded();
 
@@ -30,14 +30,14 @@ test.describe('Login page', () => {
     await loginPage.expectEmailValue('');
   });
 
-  test('LOGIN-005: forgot password section hiển thị', async ({ loginPage }) => {
+  test('LOGIN-005: khu vực quên mật khẩu hiển thị', async ({ loginPage }) => {
     await loginPage.goTo();
     await loginPage.expectLoaded();
 
     await loginPage.expectForgotPasswordVisible();
   });
 
-  test('LOGIN-006: login sai không đăng nhập và hiển thị bảo vệ hCaptcha', async ({
+  test('LOGIN-006: login sai không login được và hiển thị bảo vệ hCaptcha', async ({
     loginPage,
   }) => {
     await loginPage.goTo();

@@ -1,6 +1,6 @@
 import { expect, test } from '@/fixtures/page.fixture';
 
-test.describe('Real cart contract @real', () => {
+test.describe('Luồng giỏ hàng thật @real @e2e @mutation', () => {
   test.describe.configure({ retries: 1 });
 
   test.beforeEach(async ({ page }) => {
@@ -11,7 +11,7 @@ test.describe('Real cart contract @real', () => {
     await page.goto('/cart/clear');
   });
 
-  test('REAL-CART-001: cart rỗng thật hiển thị đúng và Continue Shopping về catalog', async ({
+  test('REAL-CART-001: giỏ hàng rỗng thật hiển thị đúng và tiếp tục mua sắm quay về catalog', async ({
     homePage,
     cartPage,
     catalogPage,
@@ -28,12 +28,18 @@ test.describe('Real cart contract @real', () => {
     await catalogPage.expectLoaded();
   });
 
-  test('REAL-CART-002: add, update quantity, remove item thật trên cart page', async ({
+  test('REAL-CART-002: thêm, cập nhật số lượng và xóa sản phẩm thật trên trang giỏ hàng', async ({
+    homePage,
+    catalogPage,
     productPage,
     cartPage,
     page,
   }) => {
-    await productPage.goTo('grey-jacket');
+    await homePage.goTo();
+    await homePage.expectLoaded();
+    await homePage.goToCatalog();
+    await catalogPage.expectLoaded();
+    await catalogPage.openProduct(/Grey jacket/i);
     await productPage.expectProductVisible('Grey jacket', '£55.00');
 
     await productPage.addToCart();
@@ -44,6 +50,13 @@ test.describe('Real cart contract @real', () => {
 
     const quantityInput = page.locator('input[name="updates[]"]:visible').first();
 
+    await expect(quantityInput).toHaveValue('1');
+    await expect(page.getByText('Total £55.00')).toBeVisible();
+
+    await page.goto('/cart', { waitUntil: 'domcontentloaded', timeout: 60_000 });
+
+    await expect(page.getByRole('heading', { name: 'My Cart' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Grey jacket/i })).toBeVisible();
     await expect(quantityInput).toHaveValue('1');
     await expect(page.getByText('Total £55.00')).toBeVisible();
 

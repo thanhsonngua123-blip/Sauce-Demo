@@ -14,6 +14,6 @@ export const routes = {
     blackHeels: '/products/flower-print-jeans',
     bronzeSandals: '/products/bronze-sandals',
     brownShades: '/products/brown-shades',
-    whiteSandals: '/products/white-sandals'
-  }
-} as const
+    whiteSandals: '/products/white-sandals',
+  },
+} as const;

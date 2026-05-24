@@ -4,11 +4,17 @@ export class ProductPage {
   readonly page: Page;
   readonly addToCartButton: Locator;
   readonly soldOutButton: Locator;
+  readonly sizeSelect: Locator;
+  readonly colorSelect: Locator;
+  readonly variantSelect: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.addToCartButton = page.getByRole('button', { name: 'Add to Cart' });
     this.soldOutButton = page.getByRole('button', { name: 'Sold Out' });
+    this.sizeSelect = page.locator('#product-select-option-0');
+    this.colorSelect = page.locator('#product-select-option-1');
+    this.variantSelect = page.locator('#product-select');
   }
 
   async goTo(slug: string) {
@@ -20,7 +26,7 @@ export class ProductPage {
   }
 
   price(price: string) {
-    return this.page.getByText(price, { exact: true });
+    return this.page.locator('#product-price').filter({ hasText: normalizePrice(price) });
   }
 
   async expectProductUrl(slug: string | RegExp) {
@@ -54,6 +60,19 @@ export class ProductPage {
     await cartResponse;
   }
 
+  async selectSize(size: string) {
+    await this.sizeSelect.selectOption(size);
+  }
+
+  async selectColor(color: string) {
+    await this.colorSelect.selectOption(color);
+  }
+
+  async expectSelectedVariant(variant: string) {
+    await expect(this.variantSelect).toHaveValue(/.+/);
+    await expect(this.variantSelect.locator('option:checked')).toHaveText(variant);
+  }
+
   async expectAddToCartVisible() {
     await expect(this.addToCartButton).toBeVisible();
     await expect(this.addToCartButton).toBeEnabled();
@@ -63,4 +82,8 @@ export class ProductPage {
     await expect(this.soldOutButton).toBeVisible();
     await expect(this.soldOutButton).toBeDisabled();
   }
+}
+
+function normalizePrice(price: string) {
+  return price.replace('\u00c2£', '£');
 }

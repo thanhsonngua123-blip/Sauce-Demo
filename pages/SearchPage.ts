@@ -38,7 +38,8 @@ export class SearchPage {
   }
 
   async search(query: string) {
-    await this.page.goto(`/search?q=${encodeURIComponent(query)}`);
+    await this.searchBox.fill(query);
+    await this.searchButton.click();
   }
 
   async expectShowingResultsFor(query: string) {
@@ -47,6 +48,10 @@ export class SearchPage {
 
   async expectResultVisible(productName: string | RegExp) {
     await expect(this.page.getByRole('link', { name: productName })).toBeVisible();
+  }
+
+  async openResult(productName: string | RegExp) {
+    await this.page.getByRole('link', { name: productName }).first().click();
   }
 
   async expectNoResultsFor(query: string) {

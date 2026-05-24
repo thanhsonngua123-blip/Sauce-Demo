@@ -38,12 +38,14 @@ export class CartPage {
   }
 
   async expectHeaderCartCount(count: number) {
-    await expect(this.page.getByRole('banner').getByRole('link', { name: `My Cart (${count})` })).toBeVisible();
+    await expect(
+      this.page.getByRole('banner').getByRole('link', { name: `My Cart (${count})` })
+    ).toBeVisible();
   }
 
   async expectProductVisible(name: string, price: string) {
     await expect(this.page.getByRole('heading', { name: new RegExp(name, 'i') })).toBeVisible();
-    await expect(this.page.getByText(price, { exact: true }).first()).toBeVisible();
+    await expect(this.page.getByText(price, { exact: true }).filter({ visible: true }).first()).toBeVisible();
   }
 
   async expectQuantity(quantity: string) {
